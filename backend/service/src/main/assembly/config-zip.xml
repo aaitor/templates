@@ -1,0 +1,25 @@
+<assembly>
+<id>config</id>
+  <includeBaseDirectory>false</includeBaseDirectory>
+  <formats>
+    <format>zip</format>
+  </formats>
+  <fileSets>
+    <fileSet>
+      <directory>src/main/resources/</directory>
+      <outputDirectory>/config</outputDirectory>
+      <includes>
+        <include>*.properties</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>src/test/resources/</directory>
+      <outputDirectory>/config</outputDirectory>
+      <includes>
+        <include>service.properties</include>
+        <include>log4j.properties</include>
+        <include>tomcat-context.xml</include>
+      </includes>
+    </fileSet>
+  </fileSets>
+</assembly>

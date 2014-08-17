@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 17-ago-2014 11:49:39 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.examples.apps.core.model.User" table="User" catalog="Examples">
+        <id name="usrId" type="string">
+            <column name="usrId" length="36" />
+            <generator class="assigned" />
+        </id>
+        <property name="usrNickname" type="string">
+            <column name="usrNickname" length="50" not-null="true" />
+        </property>
+        <property name="usrEmail" type="string">
+            <column name="usrEmail" length="200" not-null="true" />
+        </property>
+        <property name="usrPassword" type="string">
+            <column name="usrPassword" length="200" not-null="true" />
+        </property>
+        <property name="usrName" type="string">
+            <column name="usrName" length="200" not-null="true" />
+        </property>
+        <property name="usrBirthdate" type="date">
+            <column name="usrBirthdate" length="10" not-null="true" />
+        </property>
+        <set name="reviews" table="Review" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="revUsrId" length="36" not-null="true" />
+            </key>
+            <one-to-many class="com.examples.apps.core.model.Review" />
+        </set>
+    </class>
+</hibernate-mapping>

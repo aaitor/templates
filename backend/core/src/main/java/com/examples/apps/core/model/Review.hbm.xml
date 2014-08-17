@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 17-ago-2014 11:49:39 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.examples.apps.core.model.Review" table="Review" catalog="Examples">
+        <id name="revId" type="string">
+            <column name="revId" length="36" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="user" class="com.examples.apps.core.model.User" fetch="select">
+            <column name="revUsrId" length="36" not-null="true" />
+        </many-to-one>
+        <property name="revTitle" type="string">
+            <column name="revTitle" length="200" not-null="true" />
+        </property>
+        <property name="revText" type="string">
+            <column name="revText" length="65535" />
+        </property>
+        <property name="revRating" type="big_decimal">
+            <column name="revRating" precision="4" not-null="true" />
+        </property>
+        <property name="revCreationDatetime" type="timestamp">
+            <column name="revCreationDatetime" length="19" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

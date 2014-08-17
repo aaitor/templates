@@ -1,0 +1,68 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns:context="http://www.springframework.org/schema/context"
+          xsi:schemaLocation="
+   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+	<bean id="log4jInitialization" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+	    <property name="targetClass" value="org.springframework.util.Log4jConfigurer" />
+	    <property name="targetMethod" value="initLogging" />
+	    <property name="arguments">
+ 			<list>
+ 				<value>${log4j.path}</value>
+ 			</list>
+ 		</property>
+	</bean>
+	
+	<bean id="usersResource" class="com.examples.apps.service.UsersResource">
+	    <constructor-arg index="0" ref="usersManager"/>
+	</bean>
+	
+	<bean id="usersManager" class="com.examples.apps.core.UsersManagerImpl">
+	    <constructor-arg index="0" ref="datastoreDao"/>
+	</bean>
+	
+	<bean id="datastoreDao" class="com.examples.apps.core.dao.DatastoreDao">
+	</bean>
+		
+  <!-- Configuration -->
+
+  <bean id="properties"
+    	class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	    <!-- <property name="properties" ref="propertyLoaders" />-->
+	    <property name="properties" ref="SettingProperties" />
+	    <property name="ignoreUnresolvablePlaceholders" value="true" />
+	    <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+  </bean>
+
+ <bean id="SettingProperties"
+        class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="ignoreResourceNotFound" value="true" />
+        <property name="locations">
+            <list>
+                <value>classpath:service.properties</value>
+                <value>${service.config}</value>
+                <value>file://${CONFIG_DIR}/service/service.properties</value>
+                <bean id="configurationFile" class="org.springframework.jndi.JndiObjectFactoryBean"> <!-- If not found, look for a JNDI evn entry (defined in Tomcat context file) -->
+                    <property name="jndiName">
+                     <value>java:comp/env/service/config-file</value>
+                    </property>
+                    <property name="defaultObject" value="" />
+                </bean>
+            </list>
+        </property>
+
+        <property name="properties">
+            <props>
+                <prop key="log4j.path">classpath:/log4j.properties</prop>
+                <prop key="service.config">classpath:/service.properties</prop>
+                <prop key="CONFIG_DIR">/etc</prop>
+            </props>
+        </property>
+    </bean>
+
+		
+	
+	
+</beans>
